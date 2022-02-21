@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <h1>Ma première application VueJS</h1>
+    <div id="app">
+        Commencement du projet<br>
+        Age: {{age}}<br>
+        Pseudo : {{pseudo}}<br>
+        Utilisateur : {{nomComplet}}
+        <p><button v-on:click="changeNom('Sébastien')">Test</button></p>
+        <p v-if="afficheMonTexte == true">Ce texte ne sera affiché que lorsque la propriété afficheMonTexte aura la
+            valeur true</p>
+        <p v-else>
+            Ce texte s'affichera seulement si affichemonTexte est à false
+        </p>
+        <p>Afficher les notes ? </p>
+        <input type="radio" v-model="displayNotes" v-bind:value="true"> Oui
+        <input type="radio" v-model="displayNotes" v-bind:value="false"> Non
+        <ul v-if="displayNotes == true">
+            <li v-for="note of notes">{{note}} / 20</li>
+        </ul>
+        <!-- Passage de $event pour récuperer le event.target par exemple -->
+        <p><label>Nouvelle note <input type="number" min="0" max="20" @keyup.enter="addNote($event)"></label></p>
+        <p><label> Modifier Nom
+                <input type="text" v-model="nom">
+            </label></p>
+        <p><label> Modifier Prénom
+                <input type="text" v-model="prenom">
+            </label></p>
+        <!-- Modification d'attributs HTML  -->
+        <p><a v-bind:href="dataUrl">Google</a></p>
+    </div>
+
+
+    <script>
+        let vm = new Vue({ /*Création d'une instance de vue, et passage du code en option*/
+            el: '#app', /*Sélecteur. Même syntaxe que le CSS*/
+            data: { /*Données de l'application*/
+                pseudo: 'Yolo31',
+                birthday: new Date('1987-02-17'),
+                nom: 'prudhomme',
+                prenom: 'Cédric',
+                afficheMonTexte: true,
+                notes: [15, 8, 12, 18, 11, 5],
+                dataUrl: 'https://www.google.fr',
+                displayNotes: true
+            },
+            created: function () {
+                console.log("OK Created")
+
+            },
+            updated: function() {
+                console.log("J'ai mis à jour la vue")
+
+            },
+            computed: {
+                age: function () {
+                    let today = new Date();
+                    let diff = today.getTime() - this.birthday.getTime();
+                    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                },
+                nomComplet: function () {
+                    // return this.prenom + ' '+this.nom.toUpperCase();
+                    return `${this.prenom} ${this.nom.toUpperCase()}`
+                }
+            },
+            filters: {
+                capitalize: function (value) {
+                    return value.charAt(0).toUpperCase() + value.slice(1);
+                }
+            },
+            methods: {
+                changeNom: function (value) {
+                    this.nom = value
+                },
+                addNote: function(e) {
+                    let value = parseFloat(e.target.value)
+                    if (value <0 || value>20) console.error("Pb de saisie")
+                    else this.notes.push(value);
+                    e.target.value='';
+                }
+
+            }
+        });
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <h1>Ma première application VueJS</h1>
+    <div id="app">
+        <p>Prénom : {{prenom}}</p>
+        <p>Nom : {{nom}}</p>
+        <p>Heure de connexion : {{creationDate}}</p>
+        <p>Votre nom complet est : {{nomComplet}} et vous avez {{age}} ans</p>
+        <p v-if="!showStory">Voici mon histoire en 30 caractères : {{story | excerpt}}...</p>
+        <p v-else>{{story}}</p>
+        <p><button v-on:click="changeStory()"><span v-if="!showStory">Afficher le texte complet</span><span
+                    v-else>Afficher l'extrait</span></button></p>
+        <p>Pays dans lesquels j'ai voyagé</p>
+        <ul>
+            <li v-for="x of voyage">{{x}}
+            </li>
+        </ul>
+        <span :title="time">Horloge : {{time}}</span>
+        <p>
+        <p><label> Prénom
+                <input type="text" v-model="prenom">
+            </label></p>
+        <p><label> Nom
+                <input type="text" v-model="nom">
+            </label></p>
+        <p><label> Date de naissance
+                <input type="date" v-model="birthday">
+            </label></p>
+        <p><textarea v-model="story" cols="120" rows="10"></textarea></p>
+        <label> Afficher la story
+            <input type="radio" v-model="showStory" v-bind:value="false">Non
+            <input type="radio" v-model="showStory" v-bind:value="true">Oui
+        </label>
+        </p>
+        <p>
+            <label>Ajouter un voyage :
+                <select v-on:change="addCountry($event)">
+                    <option value="0"></option>
+                    <option value="USA">USA</option>
+                    <option value="Japon">Japon</option>
+                    <option value="Turquie">Turquie</option>
+                    <option value="Canada">Canada</option>
+                </select>
+            </label>
+        </p>
+
+        <h2>Facturation</h2>
+        <p>
+            <label> Prix Unitaire
+                <input type="text" v-on:change="verifChamp($event,0)">
+            </label>
+        </p>
+        <p>
+            <label> Quantité
+                <input type="number" v-on:change="verifChamp($event,1)" min="0">
+            </label>
+        </p>
+        <p><label>Taux de TVA :</label>
+            <select v-model="tauxSelection">
+                <option v-for="tx of tauxTva" :value="tx">{{tx}} %</option>
+            </select>
+        </p>
+        <p>
+            <button v-on:click="calculHT()">Calculer Montant HT</button>
+            <button v-on:click="calculTTC()">Calculer Montant TTC</button>
+        </p>
+        <p>Montant Hors-taxe : {{montantHT}} €</p>
+        <p>Montant TTC : {{montantTTC}} €</p>
+    </div>
+
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                nom: 'Prud\'homme',
+                prenom: 'Cédric',
+                creationDate: '',
+                birthday: '1987-02-17',
+                story: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit vel recusandae, ullam delectus voluptatem natus nihil! Odit quod earum praesentium obcaecati nesciunt accusamus neque, reiciendis officia. Quam, hic! Saepe, eligendi.',
+                showStory: false,
+                voyage: ['France', 'Italie', 'Espagne', 'Belgique', 'Suisse'],
+                time: '',
+                prix: 0,
+                quantite: 0,
+                tauxTva: [0, 5, 10, 15, 20],
+                tauxSelection: 0,
+                montantHT: parseFloat(0).toFixed(2),
+                montantTTC: parseFloat(0).toFixed(2)
+            },
+            created: function () {
+                let aujourdhui = new Date();
+                this.creationDate = aujourdhui.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ' à ' + aujourdhui.toLocaleTimeString('fr-FR');
+                let interval = setInterval(() => {
+                    let maintenant = new Date();
+                    this.time = maintenant.toLocaleTimeString('fr-FR');
+                }, 1000);
+
+            },
+            computed: {
+                nomComplet: function () {
+                    return `${this.prenom.charAt(0).toUpperCase()}${this.prenom.substring(1)} ${this.nom.toUpperCase()}`;
+
+                },
+                age: function () {
+                    let aujourdhui = new Date();
+                    let anniversaire = new Date(this.birthday);
+                    return Math.floor((aujourdhui.getTime() - anniversaire.getTime()) / 31557600000);
+
+                },
+                // montantHT: function () {
+                //     return (parseFloat(this.prix) * parseInt(this.quantite)).toFixed(2)
+
+                // },
+                // montantTTC: function () {
+                //     return (this.montantHT * (1 + this.tauxSelection / 100)).toFixed(2)
+
+                // }
+
+
+            },
+            filters: {
+                excerpt: function (value) {
+                    return value.substring(0, 30);
+
+                }
+            },
+            methods: {
+                changeStory: function () {
+                    this.showStory = !this.showStory;
+                },
+                addCountry: function (value) {
+                    if (this.voyage.value != 0) {
+                        this.voyage.push(value.target.value);
+                        value.target[0].selected = true;
+                    }
+
+
+                },
+                calculHT: function () {
+                    this.montantHT = (parseFloat(this.prix) * parseFloat(this.quantite)).toFixed(2);
+
+                },
+                calculTTC: function () {
+                    this.calculHT();
+                    this.montantTTC = (this.montantHT * (1 + this.tauxSelection / 100)).toFixed(2);
+                },
+                verifChamp: function (valeur, champ) {
+                    if (!parseFloat(valeur.target.value)) valeur.target.value = 0;
+                    else {
+                        if (champ == 0) this.prix = valeur.target.value
+                        else this.quantite = valeur.target.value
+                    }
+
+                }
+
+
+            }
+
+
+        })
+
+
+    </script>
+</body>
+
+</html>
