@@ -52,6 +52,19 @@
 
             <listecompetences :competences="competence"></listecompetences>
 
+            <h2>Choix du thème</h2>
+            <p>
+                Couleur : <select v-on:change="changeTheme($event)" v-model="theme" id="theme">
+                    <option value="standard">Standard</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                    <option value="blue">Blue</option>
+                </select>
+
+                Souligner les sections : <input type="checkbox" v-on:change="changeUnderline()" v-model="underline"
+                    id="underline">
+            </p>
+
             <h2>Enregistrer le CV</h2>
             <p>
                 <button v-on:click="saveStorage('cv')">Enregistrer le CV</button>
@@ -62,6 +75,7 @@
         </section>
         <section id="rendu">
             <h2 class="title">Rendu du CV</h2>
+            <h2 id="titrePrint" class="poste">Curriculum Vitae</h2>
             <information :nom="nom" :prenom="prenom" :adresse="adresse" :voiture="voiture"
                 :datenaissance="dateDeNaissance" :intitule="intitulePoste" :urlphoto="urlPhoto"></information>
             <formation :formations="formation"></formation>

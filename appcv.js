@@ -7,8 +7,8 @@ let information = {
     <div class="info">
     <p v-if="age">Age : {{age}} ({{datenaissance|dateFr}})</p>
     <p v-if="adresse">Adresse : {{adresse}}</p>
-    <p v-if="!voiture" style="color:red;">Voiture : Non</p>
-    <p v-else style="color:green;">Voiture : Oui</p></div>
+    <p v-if="!voiture" class="voitureNo">Voiture : Non</p>
+    <p v-else class="voitureYes">Voiture : Oui</p></div>
     </div>
     </section>`,
     filters: {
@@ -161,14 +161,21 @@ let app = new Vue({
         formation: [],
         competence: [],
         intitulePoste: '',
-        urlPhoto: 'https://dummyimage.com/120x120/000000/ffffff.png'
+        urlPhoto: 'https://dummyimage.com/120x120/000000/ffffff.png',
+        theme: 'standard',
+        underline: true
     },
     created: function () {
-        let data = JSON.parse(localStorage.getItem('cv'))
+        let data = JSON.parse(localStorage.getItem('cv'));
         for (datakey in data) {
-            this.$data[datakey] = data[datakey]
+            this.$data[datakey] = data[datakey];
         }
+        let main = document.querySelector("main");
+        main.setAttribute('data-theme', this.theme);
+    },
 
+    mounted: function () {
+        this.changeUnderline()
     },
     components: {
         information,
@@ -241,6 +248,21 @@ let app = new Vue({
         },
         printCV: function () {
             window.print()
+        },
+        changeTheme: function (e) {
+            let main = document.querySelector("main")
+            main.setAttribute('data-theme', e.target.value)
+        },
+        changeUnderline: function () {
+            let sections = document.querySelectorAll("#rendu h2")
+            sections.forEach(x => {
+                if (!this.underline) x.classList.add("noUnderline")
+                else x.classList.remove("noUnderline")
+
+            });
+
+
+
         }
     }
 })

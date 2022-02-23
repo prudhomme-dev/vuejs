@@ -1,8 +1,57 @@
 /***************************************************
 GLOBAL
 ***************************************************/
+:root {
+    --color-text: black;
+    --color-background-gradient: linear-gradient(145deg, rgba(210, 105, 30, 1) 0%, rgba(180, 179, 179, 1) 30%, rgba(246, 246, 246, 1) 100%);
+    --color-background-gradient-reverse: linear-gradient(300deg, rgba(210, 105, 30, 1) 0%, rgba(180, 179, 179, 1) 30%, rgba(246, 246, 246, 1) 100%);
+    --button-color-background: chocolate;
+    --button-color-text: white;
+    --color-title-job: blue;
+    --liststyle-content: url('https://api.iconify.design/codicon/debug-breakpoint-data.svg?color=chocolate');
+    --color-validate: green;
+    --color-alert: red;
+}
+
+[data-theme="dark"] {
+    --button-color-background: #853D09;
+    --button-color-text: white;
+    --color-background-gradient: linear-gradient(145deg, rgba(133, 61, 9, 1) 0%, rgba(142, 142, 142, 1) 30%, rgba(255, 253, 253, 1) 100%);
+    --color-background-gradient-reverse: linear-gradient(300deg, rgba(133, 61, 9, 1) 0%, rgba(142, 142, 142, 1) 30%, rgba(255, 253, 253, 1) 100%);
+    --color-text: rgb(87, 73, 73);
+    --color-title-job: green;
+    --liststyle-content: url('https://api.iconify.design/codicon/debug-breakpoint-data.svg?color=%23853D09');
+    --color-validate: rgb(0, 56, 0);
+    --color-alert: rgb(121, 0, 0);
+}
+
+[data-theme="light"] {
+    --button-color-background: #D2691E;
+    --button-color-text: black;
+    --color-background-gradient: linear-gradient(145deg, rgba(212, 124, 61, 1) 0%, rgba(236, 244, 172, 1) 30%, rgba(212, 124, 61, 1) 100%);
+    --color-background-gradient-reverse: linear-gradient(300deg, rgba(212, 124, 61, 1) 0%, rgba(236, 244, 172, 1) 30%, rgba(212, 124, 61, 1) 100%);
+    --color-text: rgb(87, 73, 73);
+    --color-title-job: rgb(100, 61, 3);
+    --liststyle-content: url('https://api.iconify.design/codicon/debug-breakpoint-data.svg?color=%23D2691E');
+    --color-validate: rgb(0, 56, 0);
+    --color-alert: rgb(121, 0, 0);
+}
+
+[data-theme="blue"] {
+    --button-color-background: #1e90d2;
+    --button-color-text: white;
+    --color-background-gradient: linear-gradient(145deg, rgba(130, 189, 223, 1) 0%, rgba(235, 209, 209, 1) 30%, rgba(30, 144, 210, 1) 100%);
+    --color-background-gradient-reverse: linear-gradient(300deg, rgba(130, 189, 223, 1) 0%, rgba(235, 209, 209, 1) 30%, rgba(30, 144, 210, 1) 100%);
+    --color-text: rgb(7, 9, 71);
+    --color-title-job: rgb(74, 4, 204);
+    --liststyle-content: url('https://api.iconify.design/codicon/debug-breakpoint-data.svg?color=%231e90d2');
+    --color-validate: rgb(160, 255, 160);
+    --color-alert: rgb(255, 131, 131);
+}
+
 * {
     box-sizing: border-box;
+    color: var(--color-text);
 
 }
 
@@ -63,7 +112,7 @@ main {
 
 #formulaire {
     padding: 15px 45px;
-    background: linear-gradient(145deg, rgba(210, 105, 30, 1) 0%, rgba(180, 179, 179, 1) 30%, rgba(246, 246, 246, 1) 100%);
+    background: var(--color-background-gradient)
 }
 
 h1,
@@ -83,33 +132,33 @@ label {
     padding: 15px 45px;
     margin: 0 auto;
     min-width: 45%;
-    background: linear-gradient(300deg, rgba(210, 105, 30, 1) 0%, rgba(180, 179, 179, 1) 30%, rgba(246, 246, 246, 1) 100%);
+    background: var(--color-background-gradient-reverse)
 }
 
 button {
-    background-color: chocolate;
-    border: 1px solid chocolate;
+    background-color: var(--button-color-background);
+    border: 1px solid var(--button-color-background);
     padding: 5px;
-    color: white;
+    color: var(--button-color-text);
 }
 
 button:hover {
-    background-color: white;
-    border: 1px solid chocolate;
-    color: chocolate;
+    background-color: var(--button-color-text);
+    border: 1px solid var(--button-color-background);
+    color: var(--button-color-background);
     transition: 0.5s;
 }
 
 input,
 select {
-    border: 1px chocolate solid;
+    border: 1px var(--button-color-background) solid;
     padding: 2px 5px;
     outline: none;
 }
 
 input:focus,
 select:focus {
-    outline: 1px chocolate solid;
+    outline: 1px var(--button-color-background) solid;
 }
 
 .adresse input {
@@ -123,7 +172,7 @@ select:focus {
 #rendu h2 {
     text-align: center;
     padding: 8px;
-    text-decoration: underline dotted 2px black;
+    text-decoration: underline dotted 2px var(--color-text);
 }
 
 #rendu>h2 {
@@ -131,6 +180,15 @@ select:focus {
     padding: 8px;
     text-decoration: none;
 }
+
+#rendu .voitureNo {
+    color: var(--color-alert);
+}
+
+#rendu .voitureYes {
+    color: var(--color-validate);
+}
+
 
 #rendu p {
     margin: 0;
@@ -144,7 +202,7 @@ select:focus {
 }
 
 #rendu li::before {
-    content: url('https://api.iconify.design/codicon/debug-breakpoint-data.svg?color=chocolate');
+    content: var(--liststyle-content);
     padding: 5px;
 }
 
@@ -155,7 +213,7 @@ select:focus {
 
 #rendu .poste {
     text-decoration: none;
-    color: blue;
+    color: var(--color-title-job);
 }
 
 #rendu img {
@@ -171,6 +229,14 @@ select:focus {
     padding: 15px;
 }
 
+.noUnderline {
+    text-decoration: none !important;
+}
+
+#titrePrint {
+    display: none;
+}
+
 @media print {
     #formulaire {
         display: none;
@@ -178,5 +244,9 @@ select:focus {
 
     #rendu .title {
         display: none;
+    }
+
+    #titrePrint {
+        display: block;
     }
 }
