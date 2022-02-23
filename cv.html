@@ -6,53 +6,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de CV</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="cv.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
 
-    <main>
-        <h1>Application CV</h1>
-        <h2>Données personnelles</h2>
-        <p>
-            <label>Nom : <input v-model="nom" type="text"></label>
-            <label>Prénom : <input v-model="prenom"></label>
-            <label>Date de naissance : <input v-model="dateDeNaissance" type="date"></label>
-        </p>
-        <p><label>Adresse : <input v-model="adresse" type="text"></label></p>
-        <p><label>Voiture :
-                Oui <input type="radio" v-model="voiture" v-bind:value="true">
-                Non <input type="radio" v-model="voiture" v-bind:value="false"></label></p>
-        <h2>Formation</h2>
-        <p><label>Ajouter une formation : <input type="text" id="formation"></label>
-            <label>Début : <input type="date" id="formDateDebut"></label>
-            <label>Fin : <input type="date" id="formDateFin"></label>
-            <button v-on:click="ajouterFormation()">Ajouter</button>
-        </p>
-        <h2>Expérience Professionnelle</h2>
-        <p><label>Ajouter une expérience professionnelle : <input type="text" id="experience"></label>
-            <label>Début : <input type="date" id="expDateDebut"></label>
-            <label>Fin : <input type="date" id="expDateFin"></label>
-            <button v-on:click="ajouterExpPro()">Ajouter</button>
-        </p>
+    <main class="flex">
+        <section id="formulaire">
+            <h1>Application CV</h1>
+            <h2>Données personnelles</h2>
+            <p><label>Nom : <input v-model="nom" type="text"></label><label>Prénom : <input v-model="prenom"></label>
+            </p>
+            <p><label>Date de naissance : <input v-model="dateDeNaissance" type="date"></label></p>
 
-        <h2>Compétences</h2>
-        <p><label>Ajouter une compétence : <input type="text" id="competence"></label>
-            <button v-on:click="ajouterCompetence()">Ajouter</button>
-        </p>
+            <p><label class="adresse">Adresse : <input v-model="adresse" type="text"></label></p>
+            <p><label>Voiture :
+                    Oui <input type="radio" v-model="voiture" v-bind:value="true">
+                    Non <input type="radio" v-model="voiture" v-bind:value="false"></label></p>
+            <p><label class="adresse">Intitulé du poste : <input type="text" v-model="intitulePoste"></label></p>
+            <p><label class="adresse">URL de la photo : <input type="text" v-model="urlPhoto"></label></p>
+            <h2>Formation</h2>
+            <p><label>Ajouter une formation : <input type="text" id="formation"></label></p>
+            <p><label>Début : <input type="date" id="formDateDebut"></label></p>
+            <p><label>Fin : <input type="date" id="formDateFin"></label> <button
+                    v-on:click="ajouterFormation()">Ajouter</button></p>
 
-        <h2>Enregistrer le CV</h2>
-        <p>
-            <button v-on:click="saveStorage('cv')">Enregistrer le CV</button>
-            <button v-on:click="delStorage('cv')">Supprimer les données</button>
-        </p>
+            <listeformations :formations="formation"></listeformations>
 
-        <h2>Rendu du CV</h2>
-        <informations :nom="nom" :prenom="prenom" :adresse="adresse" :voiture="voiture"
-            :datenaissance="dateDeNaissance"></informations>
-        <formation :formations="formation"></formation>
-        <experiencepro :experiencepro="experiencePro"></experiencepro>
-        <competence :competences="competence"></competence>
+            <h2>Expérience Professionnelle</h2>
+            <p><label>Ajouter une expérience professionnelle : <input type="text" id="experience"></label></p>
+            <p><label>Intitulé du poste : <input type="text" id="expIntitulePoste"></label></p>
+            <p><label>Début : <input type="date" id="expDateDebut"></label></p>
+            <p><label>Fin : <input type="date" id="expDateFin"></label> <button
+                    v-on:click="ajouterExpPro()">Ajouter</button></p>
+
+            <listeexppro :experiences="experiencePro"></listeexppro>
+
+
+            <h2>Compétences</h2>
+            <p><label>Ajouter une compétence : <input type="text" id="competence"></label>
+                <button v-on:click="ajouterCompetence()">Ajouter</button>
+            </p>
+
+            <listecompetences :competences="competence"></listecompetences>
+
+            <h2>Enregistrer le CV</h2>
+            <p>
+                <button v-on:click="saveStorage('cv')">Enregistrer le CV</button>
+                <button v-on:click="printCV()">Imprimer le CV</button>
+                <button v-on:click="delStorage('cv')">Supprimer les données</button>
+
+            </p>
+        </section>
+        <section id="rendu">
+            <h2 class="title">Rendu du CV</h2>
+            <information :nom="nom" :prenom="prenom" :adresse="adresse" :voiture="voiture"
+                :datenaissance="dateDeNaissance" :intitule="intitulePoste" :urlphoto="urlPhoto"></information>
+            <formation :formations="formation"></formation>
+            <experiencepro :experiencepro="experiencePro"></experiencepro>
+            <competence :competences="competence"></competence>
+        </section>
 
 
     </main>
