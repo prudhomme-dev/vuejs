@@ -4,7 +4,7 @@ Exercices lié à la formation de VueJS au sein du centre de formation : AP Form
 
 index.html : correspondant à la phase d'initiation du cours.
 
-initiation-exo.html et appcv.js : Correspondant aux exercices d'initiations du cours VueJS
+initiation-exo.html et app.js : Correspondant aux exercices d'initiations du cours VueJS
 
 cv.html / appcv.js / cv.css : Correspondant à l'exercice CV du cours d'initiation à VueJS
 
